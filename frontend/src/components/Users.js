@@ -12,7 +12,7 @@ const Users = ({ users }) => {
             </thead>
             <tbody>
                 {users.length ? users.map(user => 
-                    <User name={user.name} email={user.email} />)
+                    <User key={user.id} name={user.name} email={user.email} />)
                 : (
                     <tr>
                         <td colSpan="2">No users created</td>
