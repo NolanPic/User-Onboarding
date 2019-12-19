@@ -1,5 +1,6 @@
 import React from 'react';
 import { withFormik, Field } from 'formik';
+import * as Yup from 'yup';
 
 const Form = props => {
     const {
@@ -42,6 +43,20 @@ export default withFormik({
         email: '',
         password: '',
         termsAccepted: false
+    }),
+
+    validationSchema: Yup.object().shape({
+        name: Yup.string()
+            .min(2, 'Too short')
+            .max(40, 'Too long')
+            .required(),
+        email: Yup.string()
+            .email()
+            .required(),
+        password: Yup.string(),
+        termsAccepted: Yup.boolean()
+            .oneOf([true])
+            .required()
     }),
 
     handleSubmit: (values, { setSubmitting }) => {
