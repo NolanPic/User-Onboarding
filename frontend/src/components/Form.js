@@ -68,12 +68,13 @@ export default withFormik({
             .required()
     }),
 
-    handleSubmit: (values, { setSubmitting, props }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
         console.log('values', values);
         axios.post('https://reqres.in/api/users', values)
             .then(res => {
                 console.log('res', res);
                 props.addUser(res.data);
+                resetForm();
 
             })
             .catch(err => console.warn(err));
