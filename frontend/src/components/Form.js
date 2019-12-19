@@ -1,6 +1,7 @@
 import React from 'react';
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 const Form = props => {
     const {
@@ -69,5 +70,10 @@ export default withFormik({
 
     handleSubmit: (values, { setSubmitting }) => {
         console.log('values', values);
+        axios.post('https://reqres.in/api/users', values)
+            .then(res => {
+                console.log('res', res);
+            })
+            .catch(err => console.warn(err));
     }
 })(Form);
