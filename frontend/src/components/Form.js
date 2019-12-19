@@ -7,7 +7,8 @@ const Form = props => {
     const {
         touched,
         errors,
-        handleSubmit
+        handleSubmit,
+        isSubmitting
     } = props;
 
     return (
@@ -40,7 +41,7 @@ const Form = props => {
 
             {touched.termsAccepted && errors.termsAccepted && <p className="error">Please accept the terms and conditions</p>}
 
-            <button type="submit">Submit</button>
+            <button type="submit" disabled={isSubmitting}>Submit</button>
         </form>
     );
 };
@@ -69,13 +70,14 @@ export default withFormik({
     }),
 
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
+        setSubmitting(true);
         console.log('values', values);
         axios.post('https://reqres.in/api/users', values)
             .then(res => {
                 console.log('res', res);
                 props.addUser(res.data);
                 resetForm();
-
+                setSubmitting(false);
             })
             .catch(err => console.warn(err));
     }
