@@ -54,20 +54,23 @@ export default withFormik({
         termsAccepted: false
     }),
 
-    validationSchema: Yup.object().shape({
-        name: Yup.string()
-            .min(2, 'Too short')
-            .max(40, 'Too long')
-            .required(),
-        email: Yup.string()
-            .email()
-            .required(),
-        password: Yup.string()
-            .min(12, 'Password is too short'),
-        termsAccepted: Yup.boolean()
-            .oneOf([true])
-            .required()
-    }),
+    validationSchema: ({ checkIfEmailIsAvailable }) => { // props can be accepted by validationSchema by turning it into a function vs object
+        return Yup.object().shape({
+            name: Yup.string()
+                .min(2, 'Too short')
+                .max(40, 'Too long')
+                .required(),
+            email: Yup.string()
+                .email()
+                .test('email-available', 'This email already exists', val => checkIfEmailIsAvailable(val))
+                .required(),
+            password: Yup.string()
+                .min(12, 'Password is too short'),
+            termsAccepted: Yup.boolean()
+                .oneOf([true])
+                .required()
+         });
+    },
 
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
         setSubmitting(true);

@@ -12,9 +12,16 @@ function App() {
     setUsers([...users, user]);
   }
 
+  const checkIfEmailIsAvailable = email => {
+    return users.filter(user => user.email === email).length === 0;
+  };
+
   return (
     <div className="App">
-      <Form addUser={addUser} />
+      <Form
+        addUser={addUser}
+        checkIfEmailIsAvailable={checkIfEmailIsAvailable}
+      />
       <Users users={users} />
     </div>
   );
