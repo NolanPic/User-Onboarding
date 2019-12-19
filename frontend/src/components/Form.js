@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 
 const Form = props => {
     const {
-        values,
         touched,
         errors,
         handleSubmit
@@ -17,20 +16,28 @@ const Form = props => {
                 <Field type="text" name="name" />
             </label>
 
+            {touched.name && errors.name && <p className="error">{errors.name}</p>}
+
             <label>
                 Email:
                 <Field type="email" name="email" />
             </label>
+
+            {touched.email && errors.email && <p className="error">{errors.email}</p>}
 
             <label>
                 Password:
                 <Field type="password" name="password" />
             </label>
 
+            {touched.password && errors.password && <p className="error">{errors.password}</p>}
+
             <label>
                 I agree to the terms and conditions
                 <Field type="checkbox" name="termsAccepted" />
             </label>
+
+            {touched.termsAccepted && errors.termsAccepted && <p className="error">Please accept the terms and conditions</p>}
 
             <button type="submit">Submit</button>
         </form>
@@ -53,7 +60,8 @@ export default withFormik({
         email: Yup.string()
             .email()
             .required(),
-        password: Yup.string(),
+        password: Yup.string()
+            .min(12, 'Password is too short'),
         termsAccepted: Yup.boolean()
             .oneOf([true])
             .required()
