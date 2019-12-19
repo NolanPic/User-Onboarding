@@ -2,7 +2,25 @@ import React from 'react';
 import User from './User';
 
 const Users = ({ users }) => {
-    return users.map(user => <User name={user.name} email={user.email} />);
+    return (
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {users.length ? users.map(user => 
+                    <User name={user.name} email={user.email} />)
+                : (
+                    <tr>
+                        <td colSpan="2">No users created</td>
+                    </tr>
+                )}
+            </tbody>
+        </table>
+    );
 }
 
 export default Users;
